@@ -39,16 +39,18 @@ pip install git+https://github.com/nari-labs/dia.git
 This will open a Gradio UI that you can work on. Requires Python 3.12 (you can easly install using conda).
 
 #### IMPORTANT AMD SECTION
-ROCm 6.4.0 is required. Tested on Ubuntu 25.04 on RX 7600 XT. Takes ~200s for a 9 second clip.
+ROCm 6.4.0 is required. Tested on Ubuntu 25.04 on RX 7600 XT. Takes ~200s for a 9 second clip. Make sure to set correct GFX version in the last command.
 
 ```bash
 git clone https://github.com/nari-labs/dia.git
 cd dia
 conda create -n nari python=3.12 pip
 conda activate nari
+# Not entirely sure if we need nightly versions, but it works and it doesn't matter since we're in a virtual environment
 wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4/torch-2.6.0+rocm6.4.0.git2fb0ac2b-cp312-cp312-linux_x86_64.whl
 wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4/torchaudio-2.6.0+rocm6.4.0.gitd8831425-cp312-cp312-linux_x86_64.whl
 wget https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4/pytorch_triton_rocm-3.2.0+rocm6.4.0.git6da9e660-cp312-cp312-linux_x86_64.whl
+pip install torch-2.6.0+rocm6.4.0.git2fb0ac2b-cp312-cp312-linux_x86_64.whl torchaudio-2.6.0+rocm6.4.0.gitd8831425-cp312-cp312-linux_x86_64.whl pytorch_triton_rocm-3.2.0+rocm6.4.0.git6da9e660-cp312-cp312-linux_x86_64.whl
 pip install -e .
 # for RX 7600 XT, check your graphics card to determine GFX version
 HSA_OVERRIDE_GFX_VERSION=11.0.0 python app.py
