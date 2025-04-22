@@ -265,7 +265,7 @@ with gr.Blocks(css=css) as demo:
                 max_new_tokens = gr.Slider(
                     label="Max New Tokens (Audio Length)",
                     minimum=860,
-                    maximum=3072,
+                    maximum=7960, # Max for 16GB VRAM
                     value=model.config.data.audio_length,  # Use config default if available, else fallback
                     step=50,
                     info="Controls the maximum length of the generated audio (more tokens = longer audio).",
