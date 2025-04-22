@@ -19,3 +19,6 @@ wheels/
 .ruff_cache
 .ipynb_checkpoints
 config.json
+
+local
+*.whl

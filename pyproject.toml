@@ -3,7 +3,7 @@ name = "nari-tts"
 version = "0.1.0"
 description = "Dia - A text-to-speech model for dialogue generation"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">3.11,<3.13"
 license = {file = "LICENSE"}
 authors = [
     {name = "Nari Labs", email = "contact@narilabs.ai"}
@@ -12,13 +12,12 @@ dependencies = [
     "descript-audio-codec>=1.0.0",
     "gradio>=5.25.2",
     "huggingface-hub>=0.30.2",
-    "numpy>=2.2.4",
+    "numpy==1.26.4",
     "pydantic>=2.11.3",
     "soundfile>=0.13.1",
-    "torch>=2.6.0",
-    "torchaudio>=2.6.0",
-    "triton>=3.2.0 ; sys_platform == 'linux'",
-    "triton-windows>=3.2.0.post18 ; sys_platform == 'win32'",
+    # "torch==2.4.0+rocm6.3.4; sys_platform == 'linux'",  # specify exact version and ROCm platform
+    # "torchaudio==2.4.0+rocm6.3.4; sys_platform == 'linux'",
+    # "pytorch-triton-rocm==3.0.0+rocm6.3.4 ; sys_platform == 'linux'",
 ]
 
 [build-system]
@@ -33,12 +32,10 @@ build-backend = "hatchling.build"
 packages = ["dia"]
 
 [tool.ruff]
-# Never enforce `E501` (line length violations).
 lint.ignore = ["C901", "E501", "E741", "W605"]
 lint.select = ["C", "E", "F", "I", "W"]
 line-length = 119
 
-# Ignore import violations in all `__init__.py` files.
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["E402", "F401", "F403", "F811"]
 
@@ -47,13 +44,16 @@ lines-after-imports = 2
 
 [tool.uv.sources]
 torch = [
-  { index = "pytorch-cu126", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+  { index = "pytorch-rocm", marker = "sys_platform == 'linux'" },
 ]
 torchaudio = [
-  { index = "pytorch-cu126", marker = "sys_platform == 'linux' or sys_platform == 'win32'" },
+  { index = "pytorch-rocm", marker = "sys_platform == 'linux'" },
+]
+pytorch-triton-rocm = [
+  { index = "pytorch-rocm", marker = "sys_platform == 'linux'" },
 ]
 
 [[tool.uv.index]]
-name = "pytorch-cu126"
-url = "https://download.pytorch.org/whl/cu126"
+name = "pytorch-rocm"
+url = "https://download.pytorch.org/whl/rocm6.3.4"
 explicit = true

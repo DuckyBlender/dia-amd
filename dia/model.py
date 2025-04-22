@@ -347,6 +347,7 @@ class Dia:
 
         decode_step = self.model.decoder.decode_step
         if use_torch_compile:
+            print("Compiling decode_step...")
             decode_step = torch.compile(
                 self.model.decoder.decode_step,
                 mode="default",
