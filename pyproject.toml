@@ -12,12 +12,13 @@ dependencies = [
     "descript-audio-codec>=1.0.0",
     "gradio>=5.25.2",
     "huggingface-hub>=0.30.2",
-    "numpy==1.26.4",
+    "numpy==1.26.4", # ROCm doesn't support numpy 2.0
     "pydantic>=2.11.3",
     "soundfile>=0.13.1",
-    # "torch==2.4.0+rocm6.3.4; sys_platform == 'linux'",  # specify exact version and ROCm platform
-    # "torchaudio==2.4.0+rocm6.3.4; sys_platform == 'linux'",
-    # "pytorch-triton-rocm==3.0.0+rocm6.3.4 ; sys_platform == 'linux'",
+    # "torch>=2.6.0",
+    # "torchaudio>=2.6.0",
+    # "triton>=3.2.0 ; sys_platform == 'linux'",
+    # "triton-windows>=3.2.0.post18 ; sys_platform == 'win32'",
 ]
 
 [build-system]
@@ -41,19 +42,3 @@ line-length = 119
 
 [tool.ruff.lint.isort]
 lines-after-imports = 2
-
-[tool.uv.sources]
-torch = [
-  { index = "pytorch-rocm", marker = "sys_platform == 'linux'" },
-]
-torchaudio = [
-  { index = "pytorch-rocm", marker = "sys_platform == 'linux'" },
-]
-pytorch-triton-rocm = [
-  { index = "pytorch-rocm", marker = "sys_platform == 'linux'" },
-]
-
-[[tool.uv.index]]
-name = "pytorch-rocm"
-url = "https://download.pytorch.org/whl/rocm6.3.4"
-explicit = true
