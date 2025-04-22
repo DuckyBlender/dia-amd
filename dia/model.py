@@ -2,6 +2,7 @@ import dac
 import numpy as np
 import torch
 import torchaudio
+import time
 from huggingface_hub import hf_hub_download
 
 from .audio import audio_to_codebook, codebook_to_audio
@@ -347,11 +348,17 @@ class Dia:
 
         decode_step = self.model.decoder.decode_step
         if use_torch_compile:
-            print("Compiling decode_step...")
+            print("torch.compiling decode_step...")
+            start_time = time.time()
             decode_step = torch.compile(
                 self.model.decoder.decode_step,
                 mode="default",
             )
+            end_time = time.time()
+            print("decode_step compiled in", end_time - start_time, "seconds")
+
+        print("Setting f32 matmul precision from highest to high for performance boost.")
+        torch.set_float32_matmul_precision('high') 
 
         tgt_padding_mask = (
             (generated_BxTxC[:, -1, :].unsqueeze(1) != audio_pad_value).any(dim=2).to(self.device)

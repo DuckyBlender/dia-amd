@@ -148,7 +148,7 @@ def run_inference(
                 top_p=top_p,
                 use_cfg_filter=True,
                 cfg_filter_top_k=cfg_filter_top_k,  # Pass the value here
-                use_torch_compile=False,  # Keep False for Gradio stability
+                use_torch_compile=True,
                 audio_prompt_path=prompt_path_for_generate,
             )
 
